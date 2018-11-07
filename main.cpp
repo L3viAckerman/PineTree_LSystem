@@ -52,61 +52,25 @@ void rotR2D()
 void rotL2D() {
     glRotatef(-ANGLE, 0, 0, 1);
 }
-void rotL(){
-            glRotatef(ANGLE, 1, 0, 0);
-            glRotatef(ANGLE*4, 0, 1, 0);
-            glRotatef(ANGLE, 0, 0, 1);
+void pitchDown(){
+            glRotatef(360-ANGLE*4, 0, 1, 0);
 }
-void rotR(){
-            glRotatef(360-ANGLE, 1, 0, 0);
+void pitchUp(){
             glRotatef(ANGLE*4, 0, 1, 0);
-            glRotatef(360-ANGLE, 0, 0, 1);
-}
-void leaf(){
-            glPushAttrib(GL_LIGHTING_BIT);//saves current lighting stuff
-                //glColor3f(0.50, 1.0, 0.0);
-                GLfloat ambient[4] = { 0.50, 1.0, 0.0 };    // ambient reflection
-                GLfloat specular[4] = { 0.55, 1.0, 0.0 };   // specular reflection
-                GLfloat diffuse[4] = { 0.50, 0.9, 0.0 };   // diffuse reflection
-
-
-                // set the ambient reflection for the object
-                glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
-                // set the diffuse reflection for the object
-                glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-                // set the specular reflection for the object
-                glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-                // set the size of the specular highlights
-                glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20.0);
-
-            //glutSolidCube(depth+1);
-            glBegin(GL_TRIANGLES);
-            glVertex3f(0, 0, 0);
-            glVertex3f(0.2, 0, 0.3);
-            glVertex3f(0, 1, 0);
-            glVertex3f(0, 0, 0);
-            glVertex3f(-0.2, 0, -0.3);
-            glVertex3f(0, 1, 0);
-            glEnd();
-            glPopAttrib();
 }
 
 void drawLine(){
     glPushAttrib(GL_LIGHTING_BIT);//saves current lighting stuff
 
-
-            //glColor3f(0.55, 0.27, 0.07);
             GLfloat ambient[4] = {0.55, 0.27, 0.07};    // ambient reflection
             GLfloat specular[4] = {0.55, 0.27, 0.07};   // specular reflection
             GLfloat diffuse[4] = {0.55, 0.27, 0.07};   // diffuse reflection
-
 
             // set the ambient reflection for the object
             glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
             // set the diffuse reflection for the object
             glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
             // set the specular reflection for the object
-            //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
             glLineWidth(lineWidth);
 
             glBegin(GL_LINES);
@@ -133,12 +97,10 @@ void draw(){
             push();
         } else if (ch.compare("]") == 0){
             pop();
-        } else if (ch.compare("V") == 0){
-            leaf();
         } else if (ch.compare("^") == 0){
-            rotR();
+            pitchUp();
         } else if (ch.compare("&") == 0){
-            rotL();
+            pitchDown();
         }
         else if (ch.compare("+") == 0){
             rotR2D();
@@ -155,30 +117,13 @@ void expand(float num){
     for (int i = 0; i < str.length(); i++){
         ch = str.at(i);
 
-/*
-        if (ch.compare("D") == 0){
-            str.replace(i, 1, "DD");
-            i = i + 1;
-        } else if (ch.compare("X") == 0){
-
-            if (num < 0.4){
-                //LSystem.replace(i, 1, "D[LX]D[RX]LX");
-            str.replace(i, 1, "D[LXV]D[RXV]LX");
-
-            } else {
-                //LSystem.replace(i, 1, "D[RX]D[LX]RX");
-                str.replace(i, 1, "D[RXV]D[LXV]RX");
-            }
-            i = i + 13; //11
-        }
-    */
         if (ch.compare("X") == 0 ){
             str.replace(i, 1, "[Y][^^^Y][&&&Y]");
             i = i + 14;
         }
         else if (ch.compare("Y") == 0){
             str.replace(i, 1, "[++G][--H]TY");
-            i = i + 12;
+            i = i + 11;
         }
         else if (ch.compare("H") == 0){
             str.replace(i, 1, "-G[+H]L");
@@ -217,9 +162,6 @@ void display(void){
 
     glPushMatrix();
 
-
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     glPushAttrib(GL_LIGHTING_BIT); //saves current lighting stuff
     GLfloat ambient[4] = { 0.82, 0.41, 0.12 };    // ambient reflection
     GLfloat diffuse[4] = { 0.82, 0.41, 0.12};   // diffuse reflection
@@ -252,28 +194,6 @@ void animate(){
 
     elapsedTime = timeGetTime()-lastTime;
 
-    /*
-    // Change the angle to make it blow in the wind
-    float numR = (float) rand()/RAND_MAX;
-
-
-    if (ANGLE > 21.5){
-        if (numR < 0.5){
-            incr = -0.15;
-        } else {
-            incr = -0.1;
-        }
-    } else if (ANGLE < 18.5){
-        if (numR > 0.5){
-            incr = 0.15;
-        } else {
-            incr = 0.1;
-        }
-    }
-
-    ANGLE += incr;
-
-    */
     if (depth < DEPTH)
         length += 0.001;
 
