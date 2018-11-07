@@ -230,12 +230,12 @@ void keyboard(unsigned char key, int x, int y)
 		fieldOfView -= 5;
 		glutPostRedisplay();
 		break;
-    /* x - Increase the field of view of the camera */
+    /* Press x - Increase the field of view of the camera */
 	case 120:
 		fieldOfView += 5;
 		glutPostRedisplay();
 		break;
-    /* s - Stop moving the camera */
+    /* Press s - Stop moving the camera */
 	case 115:
 		cam = false;
 		break;
