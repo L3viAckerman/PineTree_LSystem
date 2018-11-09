@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const float PI = 3.14, DEPTH = 7;
+const float PI = 3.14, DEPTH = 8;
 // Start and end of camera movement
 const int ENDX = 10, STARTX = -500;
 // Angle of branches, and depth of tree
